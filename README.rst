@@ -57,7 +57,7 @@ Answering these questions requires causal reasoning. While many methods exist
 for causal inference, it is hard to compare their assumptions and robustness of results. DoWhy makes three contributions,
 
 1. Provides a principled way of modeling a given problem as a causal graph so
-   that all assumptions explicit.
+   that all assumptions are explicit.
 2. Provides a unified interface for many popular causal inference methods, combining the two major frameworks of graphical models and potential outcomes.
 3. Automatically tests for the validity of assumptions if possible and assesses
    the robustness of the estimate to violations.
@@ -88,7 +88,7 @@ the repository.
 
 .. code:: shell
     
-    python setup.py install
+    pip install -e .
 
 If you face any problems, try installing dependencies manually.
 
@@ -130,7 +130,7 @@ pandas dataframe df that contains the data:
         num_samples=10000,
         treatment_is_binary=True)
 
-DoWhy supports two formats for providing the causal graph: `gml <http://www.fim.uni-passau.de/index.php?id=17297&L=1>`_ (preferred) and `dot <http://www.graphviz.org/documentation/>`_. After loading in the data, we use the four main operations in DoWhy: *model*,
+DoWhy supports two formats for providing the causal graph: `gml <https://github.com/GunterMueller/UNI_PASSAU_FMI_Graph_Drawing>`_ (preferred) and `dot <http://www.graphviz.org/documentation/>`_. After loading in the data, we use the four main operations in DoWhy: *model*,
 *estimate*, *identify* and *refute*:
 
 .. code:: python
@@ -159,7 +159,7 @@ estimate (if any). Here's a sample output of the linear regression estimator.
 
 .. image:: https://raw.githubusercontent.com/microsoft/dowhy/master/docs/images/regression_output.png
 
-For detailed code examples, check out the Jupyter notebooks in `docs/source/ <https://github.com/microsoft/dowhy/tree/master/docs/source/>`_, or try them online at `Binder <https://mybinder.org/v2/gh/microsoft/dowhy/master?filepath=docs%2Fsource%2F>`_.
+For detailed code examples, check out the Jupyter notebooks in `docs/source/example_notebooks <https://github.com/microsoft/dowhy/tree/master/docs/source/example_notebooks/>`_, or try them online at `Binder <https://mybinder.org/v2/gh/microsoft/dowhy/master?filepath=docs%2Fsource%2F>`_.
 
 
 A High-level Pandas API
@@ -183,12 +183,24 @@ you can use the namespace as follows.
         treatment_is_binary=True)
 
     # data['df'] is just a regular pandas.DataFrame
-    data['df'].causal.do(x='v',
-                         variable_types={'v': 'b', 'y': 'c', 'X0': 'c'},
+    data['df'].causal.do(x='v0', # name of treatment variable
+                         variable_types={'v0': 'b', 'y': 'c', 'W0': 'c'},
                          outcome='y',
-                         common_causes=['X0']).groupby('v').mean().plot(y='y', kind='bar')
+                         common_causes=['W0']).groupby('v0').mean().plot(y='y', kind='bar')
 
 .. image:: https://raw.githubusercontent.com/microsoft/dowhy/master/docs/images/do_barplot.png
+
+For some methods, the :code:`variable_types` field must be specified. It should be a :code:`dict`, where the keys are
+variable names, and values are 'o' for ordered discrete, 'u' for un-ordered discrete, 'd' for discrete, or 'c'
+for continuous.
+
+**Note:If the** :code:`variable_types` **is not specified we make use of the following implicit conversions:**
+::
+   int -> 'c'
+   float -> 'c'
+   binary -> 'b'
+   category -> 'd'
+**Currently we have not added support for time.**
 
 The :code:`do` method in the causal namespace generates a random sample from $P(outcome|do(X=x))$ of the
 same length as your data set, and returns this outcome as a new :code:`DataFrame`. You can continue to perform
@@ -276,7 +288,7 @@ complete---you can provide a partial graph, representing prior
 knowledge about some of the variables. DoWhy automatically considers the rest
 of the variables as potential confounders.
 
-Currently, DoWhy supports two formats for graph input: `gml <http://www.fim.uni-passau.de/index.php?id=17297&L=1>`_ (preferred) and
+Currently, DoWhy supports two formats for graph input: `gml <https://github.com/GunterMueller/UNI_PASSAU_FMI_Graph_Drawing>`_ (preferred) and
 `dot <http://www.graphviz.org/documentation/>`_. We strongly suggest to use gml as the input format, as it works well with networkx. You can provide the graph either as a .gml file or as a string. If you prefer to use dot format, you will need to install additional packages (pydot or pygraphviz, see the installation section above). Both .dot files and string format are supported. 
 
 While not recommended, you can also specify common causes and/or instruments directly
@@ -323,6 +335,21 @@ DoWhy supports the following refutation methods.
 * Placebo Treatment
 * Irrelevant Additional Confounder
 * Subset validation
+
+Citing this package
+-------------------
+If you find DoWhy useful for your research work, please cite us as follows:
+
+Amit Sharma, Emre Kiciman, et al. DoWhy: A Python package for causal inference. 2019. https://github.com/microsoft/dowhy
+
+Bibtex::
+
+  @misc{dowhy,
+  authors={Sharma, Amit and Kiciman, Emre and others},
+  title={Do{W}hy: {A Python package for causal inference}},
+  howpublished={https://github.com/microsoft/dowhy}
+  year={2019}
+  }
 
 
 Roadmap 

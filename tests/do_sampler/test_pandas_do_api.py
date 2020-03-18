@@ -1,12 +1,13 @@
 import pytest
 import numpy as np
+import pandas as pd
 
 import dowhy.datasets
 import dowhy.api
 
 from sklearn.linear_model import LinearRegression
 
-
+@pytest.mark.usefixtures("fixed_seed")
 class TestPandasDoAPI(object):
     @pytest.mark.parametrize(["N", "error_tolerance"],
                              [(10000, 0.1),])
@@ -156,3 +157,71 @@ class TestPandasDoAPI(object):
             error, error_tolerance * 100, ate, data['ate'])
         )
         assert res
+    
+    '''
+    In the following three tests, we have made use of the assert True at the end, but it is not
+    a tautology due to the fact the function being tested has the ability to raise an exception
+    when it belives that the behavior of the function is wrong.
+    '''
+    @pytest.mark.parametrize(["N","variable_types"],
+                            [(10000,{'v0': 'b', 'y': 'c', 'W0': 'c'}),])
+    def test_pandas_api_with_full_specification_of_type(self, N, variable_types):
+        data = dowhy.datasets.linear_dataset(beta=5,
+                                                num_common_causes=1,
+                                                num_instruments = 0,
+                                                num_samples=1000,
+                                                treatment_is_binary=True)
+
+        data['df'].causal.do(x='v0',
+                        variable_types=variable_types,
+                        outcome='y',
+                        proceed_when_unidentifiable=True,
+                        common_causes=['W0']).groupby('v0').mean().plot(y='y', kind='bar')
+
+        assert True
+
+    @pytest.mark.parametrize(["N","variable_types"],
+                            [(10000,{'v0': 'b', 'W0': 'c'}),])
+    def test_pandas_api_with_partial_specification_of_type(self, N, variable_types):
+        data = dowhy.datasets.linear_dataset(beta=5,
+                                                num_common_causes=1,
+                                                num_instruments = 0,
+                                                num_samples=1000,
+                                                treatment_is_binary=True)
+
+        data['df'].causal.do(x='v0',
+                        variable_types=variable_types,
+                        outcome='y',
+                        proceed_when_unidentifiable=True,
+                        common_causes=['W0']).groupby('v0').mean().plot(y='y', kind='bar')
+
+    assert True
+
+    @pytest.mark.parametrize(["N","variable_types"],
+                            [(10000,{}),])
+    def test_pandas_api_with_no_specification_of_type(self, N, variable_types):
+        data = dowhy.datasets.linear_dataset(beta=5,
+                                                num_common_causes=1,
+                                                num_instruments = 0,
+                                                num_samples=1000,
+                                                treatment_is_binary=True)
+
+        data['df'].causal.do(x='v0',
+                        variable_types=variable_types,
+                        outcome='y',
+                        proceed_when_unidentifiable=True,
+                        common_causes=['W0']).groupby('v0').mean().plot(y='y', kind='bar')
+
+    assert True
+
+    @pytest.mark.parametrize(["N","variable_types"],
+                            [(1,{'v0': 'b', 'W0': 'c'}),])
+
+    def test_pandas_api_with_dummy_data(self, N, variable_types):
+        df = pd.DataFrame({'x': [0,0.5,1], 'y': [1,0.5,0], 'a': [0,0.5,0], 'b': [0.25,0,0]})
+        dd = df.causal.do(x=['x'], outcome='y', common_causes=['a', 'b'],
+                    proceed_when_unidentifiable=True,
+                    variable_types=dict(x='c', y='c', a='c', b='c'))
+        
+        print(dd)
+        

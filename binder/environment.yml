@@ -10,6 +10,7 @@ dependencies:
   - matplotlib
   - sympy
   - scikit-learn
+  - statsmodels
   - pydot
   - seaborn
   - pygraphviz
@@ -18,5 +19,7 @@ dependencies:
   - jupyter
   - notebook
   - simplegeneric
+  - pip
   - pip:
     - graphviz
+    - econml

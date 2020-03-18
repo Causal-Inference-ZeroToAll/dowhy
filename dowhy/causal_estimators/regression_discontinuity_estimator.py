@@ -10,6 +10,13 @@ class RegressionDiscontinuityEstimator(CausalEstimator):
 
     Estimates effect by transforming the problem to an instrumental variables
     problem.
+
+    Supports additional parameters that can be specified in the estimate_effect() method.
+
+    * 'rd_variable_name': name of the variable on which the discontinuity occurs. This is the instrument.
+    * 'rd_threshold_value': Threshold at which the discontinuity occurs.
+    * 'rd_bandwidth': Distance from the threshold within which confounders can be considered the same between treatment and control. Considered band is (threshold +- bandwidth)
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -25,13 +32,14 @@ class RegressionDiscontinuityEstimator(CausalEstimator):
         lower_limit = self.rd_threshold_value - self.rd_bandwidth
         rows_filter = np.s_[(self.rd_variable >= lower_limit) & (self.rd_variable <= upper_limit)]
         local_rd_variable = self.rd_variable[rows_filter]
-        local_treatment_variable = self._treatment[rows_filter]
+        local_treatment_variable = self._treatment[self._treatment_name[0]][rows_filter] # indexing by treatment name again since this method assumes a single-dimensional treatment
         local_outcome_variable = self._outcome[rows_filter]
         local_df = pd.DataFrame(data={
             'local_rd_variable': local_rd_variable,
             'local_treatment': local_treatment_variable,
             'local_outcome': local_outcome_variable
         })
+        print(local_df)
         iv_estimator = InstrumentalVariableEstimator(
             local_df,
             self._target_estimand,
