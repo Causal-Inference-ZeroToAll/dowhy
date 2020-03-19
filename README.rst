@@ -9,39 +9,35 @@
 .. |BuildStatus| image:: https://dev.azure.com/ms/dowhy/_apis/build/status/microsoft.dowhy?branchName=master
 .. _BuildStatus: https://dev.azure.com/ms/dowhy/_build/latest?definitionId=179&branchName=master
 
-DoWhy | Making causal inference easy
+DoWhy | 让因果推断容易 
 ====================================
 
 `Amit Sharma <http://www.amitsharma.in>`_,
-`Emre Kiciman <http://www.kiciman.org>`_
+`Emre Kiciman <http://www.kiciman.org>`_,
 
- Read the `docs <https://microsoft.github.io/dowhy/>`_ | Try it online! |AzureNotebooks|_ |Binder|_ 
 
-.. |AzureNotebooks| image:: https://notebooks.azure.com/launch.svg
-.. _AzureNotebooks: https://notebooks.azure.com/amshar/projects/dowhy/tree/docs/source
+随着计算系统越来越频繁地，更加积极地介入社会关键领域，例如医疗保健，教育和治理，正确预测和理解这些干预措施的因果效应至关重要。 Without an A/B test, 常规机器学习方法 built on pattern recognition and correlational analyses 不足以进行因果推理。
 
-.. |Binder| image:: https://mybinder.org/badge_logo.svg
-.. _Binder: https://mybinder.org/v2/gh/microsoft/dowhy/master?filepath=docs%2Fsource%2F
-
- Blog Posts: `Introducing DoWhy <https://www.microsoft.com/en-us/research/blog/dowhy-a-library-for-causal-inference/>`_ | `Using the Do-sampler <https://medium.com/@akelleh/introducing-the-do-sampler-for-causal-inference-a3296ea9e78d>`_
-
-As computing systems are more frequently and more actively intervening in societally critical domains such as healthcare, education, and governance, it is critical to correctly predict and understand the causal effects of these interventions. Without an A/B test, conventional machine learning methods, built on pattern recognition and correlational analyses, are insufficient for causal reasoning. 
-
-Much like machine learning libraries have done for prediction, **"DoWhy" is a Python library that aims to spark causal thinking and analysis**. DoWhy provides a unified interface for causal inference methods and automatically tests many assumptions, thus making inference accessible to non-experts.
-
-For a quick introduction to causal inference, check out `amit-sharma/causal-inference-tutorial <https://github.com/amit-sharma/causal-inference-tutorial/>`_. We also gave a more comprehensive tutorial at the ACM Knowledge Discovery and Data Mining (`KDD 2018 <http://www.kdd.org/kdd2018/>`_) conference: `causalinference.gitlab.io/kdd-tutorial <http://causalinference.gitlab.io/kdd-tutorial/>`_.
-
-Documentation for DoWhy is available at `microsoft.github.io/dowhy <https://microsoft.github.io/dowhy/>`_.
+**"DoWhy" is a Python library that aims to spark causal thinking and analysis**. DoWhy为因果推断方法提供了统一的界面，并自动测试了许多假设，从而使非专家可以进行因果推断。 快速介绍因果推理见 `causalinference.gitlab.io/kdd-tutorial <http://causalinference.gitlab.io/kdd-tutorial/>`_. Documentation for DoWhy is available at `microsoft.github.io/dowhy <https://microsoft.github.io/dowhy/>`_.
 
 .. i here comment toctree::
 .. i here comment   :maxdepth: 4
 .. i here comment   :caption: Contents:
 .. contents:: Contents
 
+编译申明
+-------------------------------------
+
+这是 DoWhy 官方教程的编译版本 by `Heyang Gong <https://sites.google.com/view/causal-inference-zerotoall/home>`_。相对官方版本，该教程
+
+* 在保证意思准确的情况下，尽量翻译英文，调整好文章的组织和目录结构，
+* 部分地方加入了一些中文个人理解和解读。
+
 The need for causal inference
 ----------------------------------
 
-Predictive models uncover patterns that connect the inputs and outcome in observed data. To intervene, however, we need to estimate the effect of changing an input from its current value, for which no data exists. Such questions, involving estimating a *counterfactual*, are common in decision-making scenarios.
+
+预测模型揭示了将观察数据中的 patterns that connect the inputs and outcome。To intervene, however, we need to estimate the effect of changing an input from its current value, for which no data exists. 这些问题涉及估计“反事实”，在决策场景中很常见。
 
 * Will it work?
     * Does a proposed change to a system improve people's outcomes?
@@ -53,13 +49,14 @@ Predictive models uncover patterns that connect the inputs and outcome in observ
     * How does the system interact with human behavior?
     * What is the effect of a system's recommendations on people's activity?
 
-Answering these questions requires causal reasoning. While many methods exist
-for causal inference, it is hard to compare their assumptions and robustness of results. DoWhy makes three contributions,
 
-1. Provides a principled way of modeling a given problem as a causal graph so
+
+回答这些问题需要因果推理。虽然存在许多方法 for causal inference，it is hard to compare their assumptions and robustness of results. DoWhy 做了三点贡献，
+
+1. (所有模型假设都显示给出) Provides a principled way of modeling a given problem as a causal graph so
    that all assumptions are explicit.
-2. Provides a unified interface for many popular causal inference methods, combining the two major frameworks of graphical models and potential outcomes.
-3. Automatically tests for the validity of assumptions if possible and assesses
+2. (实现了一个因果推断统一框架) Provides a unified interface for many popular causal inference methods, combining the two major frameworks of graphical models and potential outcomes.
+3. (可以进行稳健型分析) Automatically tests for the validity of assumptions if possible and assesses
    the robustness of the estimate to violations.
 
 Installation
@@ -111,7 +108,7 @@ first install graphviz and then pygraphviz (on Ubuntu and Ubuntu WSL).
 
 Keep in mind that pygraphviz installation can be problematic on the latest versions of Python3. Tested to work with Python 3.5.
 
-Sample causal inference analysis in DoWhy
+使用 DoWhy 进行因果推断的一个简单例子
 -------------------------------------------
 Most DoWhy
 analyses for causal inference take 4 lines to write, assuming a
@@ -165,11 +162,11 @@ For detailed code examples, check out the Jupyter notebooks in `docs/source/exam
 A High-level Pandas API
 -----------------------
 
+我们使用该 API 和内置数据集合生成函数，生成用于研究的模拟干预数据。
 We've made an even simpler API for dowhy which is a light layer on top of the standard one. The goal
 was to make causal analysis much more like regular exploratory analysis. To use this API, simply
 import :code:`dowhy.api`. This will magically add the :code:`causal` namespace to your
-:code:`pandas.DataFrame` s. Then,
-you can use the namespace as follows.
+:code:`pandas.DataFrame` s. Then, you can use the namespace as follows.
 
 .. code:: python
 
@@ -203,9 +200,7 @@ for continuous.
 **Currently we have not added support for time.**
 
 The :code:`do` method in the causal namespace generates a random sample from $P(outcome|do(X=x))$ of the
-same length as your data set, and returns this outcome as a new :code:`DataFrame`. You can continue to perform
-the usual :code:`DataFrame` operations with this sample, and so you can compute statistics and create plots
-for causal outcomes!
+same length as your data set(这个有一个关键问题，只有因果图而因果机制没有给定时候，是没有办法进行抽样的，也就是我们需要知晓数据的生成模型！也就是说这里只是生成干预数据集合的一种方式！), and returns this outcome as a new :code:`DataFrame`. You can continue to perform the usual :code:`DataFrame` operations with this sample, and so you can compute statistics and create plots for causal outcomes!
 
 The :code:`do` method is built on top of the lower-level :code:`dowhy` objects, so can still take a graph and perform
 identification automatically when you provide a graph instead of :code:`common_causes`.
@@ -217,18 +212,17 @@ graphical models and potential outcomes. It uses graph-based criteria and
 do-calculus for modeling assumptions and identifying a non-parametric causal effect.
 For estimation, it switches to methods based primarily on potential outcomes.
 
-A unifying language for causal inference
+因果推理的统一语言
 ----------------------------------------
 
-DoWhy is based on a simple unifying language for causal inference. Causal
-inference may seem tricky, but almost all methods follow four key steps:
+DoWhy基于简单的统一语言进行因果推断。因果推断似乎有些棘手，但几乎所有方法都遵循四个关键步骤：
 
 1. Model a causal inference problem using assumptions.
 2. Identify an expression for the causal effect under these assumptions ("causal estimand").
 3. Estimate the expression using statistical methods such as matching or instrumental variables.
 4. Finally, verify the validity of the estimate using a variety of robustness checks.
 
-This workflow can be captured by four key verbs in DoWhy:
+该工作流可以通过DoWhy中的四个关键动词来捕获：
 
 - model
 - identify
@@ -241,10 +235,10 @@ graph-based methods to identify the causal effect, *estimate* uses
 statistical methods for estimating the identified estimand, and finally *refute* 
 tries to refute the obtained estimate by testing robustness to assumptions.
 
-DoWhy brings three key differences compared to available software for causal inference:
+与其他因果推理的可用软件相比，DoWhy有三个关键不同之处：
 
 **Explicit identifying assumptions**
-    Assumptions are first-class citizens in DoWhy.
+    因果假设是DoWhy中的一等公民。
 
     Each analysis starts with a
     building a causal model. The assumptions can be viewed graphically or in terms
@@ -252,7 +246,7 @@ DoWhy brings three key differences compared to available software for causal inf
     automatically test for stated assumptions using observed data.
 
 **Separation between identification and estimation**
-    Identification is the causal problem. Estimation is simply a statistical problem.
+    Identification 是因果问题, 而 Estimation 统计问题.
 
     DoWhy
     respects this boundary and treats them separately. This focuses the causal
@@ -264,35 +258,32 @@ DoWhy brings three key differences compared to available software for causal inf
 **Automated robustness checks**
     What happens when key identifying assumptions may not be satisfied?
 
-    The most critical, and often skipped, part of causal analysis is checking the
-    robustness of an estimate to unverified assumptions. DoWhy makes it easy to
+    因果分析中最关键且经常被跳过的部分 is checking the
+    robustness of an estimate to unverified assumptions, 也就是敏感性分析. DoWhy makes it easy to
     automatically run sensitivity and robustness checks on the obtained estimate.
 
-Finally, DoWhy is easily extensible, allowing other implementations of the
+最后，DoWhy易于扩展, allowing other implementations of the
 four verbs to co-exist (we hope to integrate with external
 implementations in the future). The four verbs are mutually independent, so their
 implementations can be combined in any way.
 
 
 
-Below are more details about the current implementation of each of these verbs.
+下面是有关每个动词的当前实现的更多详细信息。
 
-Four steps of causal inference
+因果推断的四个步骤
 ------------------------------
 
 I. **Model a causal problem**
 
-DoWhy creates an underlying causal graphical model for each problem. This
-serves to make each causal assumption explicit. This graph need not be
-complete---you can provide a partial graph, representing prior
-knowledge about some of the variables. DoWhy automatically considers the rest
-of the variables as potential confounders.
+
+DoWhy为每个问题创建潜在的因果图模型。这个用于使每个因果假设明确。此图不必是完整---您可以提供部分图形，表示先验有关某些变量的知识。DoWhy自动考虑其余部分变量作为潜在的混杂因素。
 
 Currently, DoWhy supports two formats for graph input: `gml <https://github.com/GunterMueller/UNI_PASSAU_FMI_Graph_Drawing>`_ (preferred) and
 `dot <http://www.graphviz.org/documentation/>`_. We strongly suggest to use gml as the input format, as it works well with networkx. You can provide the graph either as a .gml file or as a string. If you prefer to use dot format, you will need to install additional packages (pydot or pygraphviz, see the installation section above). Both .dot files and string format are supported. 
 
-While not recommended, you can also specify common causes and/or instruments directly
-instead of providing a graph.
+虽然不建议使用，但您也可以 specify common causes and/or instruments directly
+而不必指定因果图.
 
 
 .. i comment image:: causal_model.png
@@ -327,10 +318,7 @@ Currently supported methods based on instrumental variables.
 
 IV. **Refute the obtained estimate**
 
-Having access to multiple refutation methods to verify a causal inference is
-a key benefit of using DoWhy.
-
-DoWhy supports the following refutation methods.
+可以使用多种 refutation methods to verify a causal inference 是使用DoWhy的主要好处。DoWhy supports the following refutation methods.
 
 * Placebo Treatment
 * Irrelevant Additional Confounder
