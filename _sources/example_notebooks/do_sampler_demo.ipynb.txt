@@ -1,0 +1,333 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**FAQ:**\n",
+    "\n",
+    "- weighting do sampler `dowhy.do_samplers.weighting_sampler.WeightingSampler` 是什么？应该是一个使用倾向得分估计(Logistic Regression) 的判别模型。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Do-sampler 简介\n",
+    "\n",
+    "--- by Adam Kelleher, Heyang Gong 编译\n",
+    "\n",
+    "The \"do-sampler\" is a new feature in DoWhy. 尽管大多数以潜在结果为导向的估算器都专注于估计 the specific contrast $E[Y_0 - Y_1]$, Pearlian inference 专注于更基本的因果量，如反事实结果的分布$P(Y^x = y)$, 它可以用来得出其他感兴趣的统计信息。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "通常，很难非参数地表示概率分布。即使可以，您也不想 gloss over finite-sample problems with you data you used to generate it. 考虑到这些问题，我们决定通过使用称为“ do-sampler”的对象从它们中进行采样来表示干预性分布。利用这些样本，我们可以希望 compute finite-sample statistics of our interventional data. 如果我们 bootstrap 许多这样的样本，我们甚至可以期待得到这些统计量的 good sampling distributions. \n",
+    "\n",
+    "The user should not 这仍然是一个活跃的研究领域，so you should be careful about being too confident in bootstrapped error bars from do-samplers.\n",
+    "\n",
+    "Note that do samplers sample from the outcome distribution, and so will vary significantly from sample to sample. To use them to compute outcomes, 我们推荐 generate several such samples to get an idea of the posterior variance of your statistic of interest."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pearlian 干预\n",
+    "\n",
+    "Following the notion of an intervention in a Pearlian causal model, 我们的 do-samplers 顺序执行如下步骤:\n",
+    "\n",
+    "1. Disrupt causes\n",
+    "2. Make Effective\n",
+    "3. Propagate and sample"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "在第一阶段，我们设想 cutting the in-edges to all of the variables we're intervening on. 在第二阶段，我们将这些变量的值设置为 their interventional quantities。在第三阶段，我们通过模型向前传播该值 to compute interventional outcomes with a sampling procedure.\n",
+    "\n",
+    "在实践中，我们可以通过多种方式来实现这些步骤。 They're most explicit when we build the model as a linear bayesian network in PyMC3, which is what underlies the MCMC do sampler. In that case, we fit one bayesian network to the data, then construct a new network representing the interventional network. The structural equations are set with the parameters fit in the initial network, and we sample from that new network to get our do sample.\n",
+    "\n",
+    "In the **weighting do sampler**, we abstractly think of \"disrupting the causes\" by accounting for selection into the causal state through propensity score estimation. These scores contain the information used to block back-door paths, and so have the same statistics effect as cutting edges into the causal state. We make the treatment effective by selecting the subset of our data set with the correct value of the causal state. Finally, we generated a weighted random sample using inverse propensity weighting to get our do sample.\n",
+    "\n",
+    "\n",
+    "您可以通过其他方法来实现这三个步骤, but the formula is the same. We've abstracted them out as abstract class methods which you should override if you'd like to create your own do sampler!\n",
+    "\n",
+    "我们实现的 do sampler 有三个特点： Statefulness, Integration 和 Specifying interventions."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Statefulness\n",
+    "\n",
+    "The do sampler when accessed through the high-level pandas API is stateless by default. This makes it intuitive to work with, and you can generate different samples with repeated calls to the `pandas.DataFrame.causal.do`. It can be made stateful, which is sometimes useful. \n",
+    "\n",
+    "我们之前提到的三阶段流程已 is implemented by passing an internal `pandas.DataFrame` through each of the three stages, but regarding it as temporary. The internal dataframe is reset by default before returning the result.\n",
+    "\n",
+    "It can be much more efficient to maintain state in the do sampler between generating samples. This is especially true when step 1 requires fitting an expensive model, as is the case with the MCMC do sampler, the kernel density sampler, and the weighting sampler. \n",
+    "\n",
+    "(只拟合一次模型) Instead of re-fitting the model for each sample, you'd like to fit it once, and then generate many samples from the do sampler. You can do this by setting the kwarg `stateful=True` when you call the `pandas.DataFrame.causal.do` method. To reset the state of the dataframe (deleting the model as well as the internal dataframe), you can call the `pandas.DataFrame.causal.reset` method.\n",
+    "\n",
+    "Through the lower-level API, the sampler 默认是无需申明的。 The assumption is that a \"power user\" who is using the low-level API will want more control over the sampling process. In this case, state is carried by internal dataframe `self._df`, which is a copy of the dataframe passed on instantiation. The original dataframe is kept in `self._data`, and is used when the user resets state. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Integration\n",
+    "\n",
+    "The do-sampler is built on top of the identification abstraction used throughout DoWhy. It uses a `dowhy.CausalModel` to perform identification, and builds any models it needs automatically using this identification."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Specifying Interventions\n",
+    "\n",
+    "There is a kwarg on the `dowhy.do_sampler.DoSampler` object called `keep_original_treatment`. While an intervention might be to set all units treatment values to some specific value, it's often natural to keep them set as they were, and instead remove confounding bias during effect estimation. If you'd prefer not to specify an intervention, you can set the kwarg like `keep_original_treatment=True`, and the second stage of the 3-stage process will be skipped. In that case, any intervention specified on sampling will be ignored.\n",
+    "\n",
+    "If the `keep_original_treatment` flag is set to false (it is by default), then you must specify an intervention when you sample from the do sampler. For details, see the demo below!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Demo\n",
+    "\n",
+    "首先，让我们生成一些数据和一个因果模型。Here, Z confounds our causal state, D, with the outcome, Y."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os, sys\n",
+    "sys.path.append(os.path.abspath(\"../../../\"))\n",
+    "\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import dowhy.api"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/latex": [
+       "$\\displaystyle 1.634523393385388$"
+      ],
+      "text/plain": [
+       "1.634523393385388"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "N = 5000\n",
+    "z = np.random.uniform(size=N)\n",
+    "d = np.random.binomial(1., p=1./(1. + np.exp(-5. * z)))\n",
+    "y = 2. * z + d + 0.1 * np.random.normal(size=N)\n",
+    "df = pd.DataFrame({'Z': z, 'D': d, 'Y': y})\n",
+    "(df[df.D == 1].mean() - df[df.D == 0].mean())['Y']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "结果比真实的因果效应高 60%.  那么，让我们为这些数据建立因果模型。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING:dowhy.causal_model:Causal Graph not provided. DoWhy will construct a graph based on data inputs.\n",
+      "INFO:dowhy.causal_graph:If this is observed data (not from a randomized experiment), there might always be missing confounders. Adding a node named \"Unobserved Confounders\" to reflect this.\n",
+      "INFO:dowhy.causal_model:Model to find the causal effect of treatment ['D'] on outcome ['Y']\n"
+     ]
+    }
+   ],
+   "source": [
+    "from dowhy import CausalModel\n",
+    "\n",
+    "causes = ['D']\n",
+    "outcomes = ['Y']\n",
+    "common_causes = ['Z']\n",
+    "\n",
+    "model = CausalModel(df, \n",
+    "                    causes,\n",
+    "                    outcomes,\n",
+    "                    common_causes=common_causes,\n",
+    "                    proceed_when_unidentifiable=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that we have a model, we can try to identify the causal effect."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "INFO:dowhy.causal_identifier:Common causes of treatment and outcome:['U', 'Z']\n",
+      "WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.\n",
+      "INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.\n",
+      "INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[]\n"
+     ]
+    }
+   ],
+   "source": [
+    "identification = model.identify_effect()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Identification works! We didn't actually need to do this yet, since it will happen internally with the do sampler, but it can't hurt to check that identification works before proceeding. Now, let's build the sampler."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "INFO:dowhy.causal_identifier:Common causes of treatment and outcome:['U', 'Z']\n",
+      "WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.\n",
+      "INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.\n",
+      "INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[]\n",
+      "INFO:dowhy.do_sampler:Using WeightingSampler for do sampling.\n",
+      "INFO:dowhy.do_sampler:Caution: do samplers assume iid data.\n"
+     ]
+    }
+   ],
+   "source": [
+    "from dowhy.do_samplers.weighting_sampler import WeightingSampler\n",
+    "\n",
+    "sampler = WeightingSampler(df,\n",
+    "                           causal_model=model,\n",
+    "                           keep_original_treatment=True,\n",
+    "                           variable_types={'D': 'b', 'Z': 'c', 'Y': 'c'})"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we can just sample from the interventional distribution! Since we set the `keep_original_treatment` flag to `False`, any treatment we pass here will be ignored. Here, we'll just pass `None` to acknowledge that we know we don't want to pass anything.\n",
+    "\n",
+    "If you'd prefer to specify an intervention, you can just put the interventional value here instead as a list or numpy array.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interventional_df = sampler.do_sample(None)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/latex": [
+       "$\\displaystyle 1.0422121269660511$"
+      ],
+      "text/plain": [
+       "1.0422121269660511"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(interventional_df[interventional_df.D == 1].mean() - interventional_df[interventional_df.D == 0].mean())['Y']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "现在我们的结果更接近真实效应 1.0！"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": true
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
