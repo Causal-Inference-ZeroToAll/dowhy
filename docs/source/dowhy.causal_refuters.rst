@@ -12,6 +12,14 @@ dowhy.causal\_refuters.add\_unobserved\_common\_cause module
    :undoc-members:
    :show-inheritance:
 
+dowhy.causal\_refuters.bootstrap\_refuter module
+------------------------------------------------
+
+.. automodule:: dowhy.causal_refuters.bootstrap_refuter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 dowhy.causal\_refuters.data\_subset\_refuter module
 ---------------------------------------------------
 
