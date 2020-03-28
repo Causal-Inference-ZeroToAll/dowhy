@@ -85,16 +85,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">DoWhy | 让因果推断容易</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy： 一个简单例子</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">Confounding Example: 观测数据中估计因果效应</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy:一个简单例子</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">相关性还是因果效应？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_causal_api.html">DoWhy 因果 API Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/do_sampler_demo.html">Do-sampler 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/load_graph_example.html">Different ways to load an input graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-simple-iv-example.html">工具变量法估计因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_ihdp_data_example.html">IHDP 因果效应估计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/lalonde_pandas_api.html">Lalonde Pandas API Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_repo.html">Code repository &amp; Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dowhy.html">dowhy package</a></li>
@@ -229,6 +229,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dowhy.causal_refuters.html#dowhy.causal_refuters.bootstrap_refuter.BootstrapRefuter">BootstrapRefuter (class in dowhy.causal_refuters.bootstrap_refuter)</a>
+</li>
       <li><a href="dowhy.do_samplers.html#dowhy.do_samplers.mcmc_sampler.McmcSampler.build_bayesian_network">build_bayesian_network() (dowhy.do_samplers.mcmc_sampler.McmcSampler method)</a>
 </li>
       <li><a href="dowhy.html#dowhy.causal_graph.CausalGraph.build_graph">build_graph() (dowhy.causal_graph.CausalGraph method)</a>
@@ -363,10 +365,10 @@
 </li>
       <li><a href="dowhy.causal_estimators.html#module-dowhy.causal_estimators.propensity_score_stratification_estimator">dowhy.causal_estimators.propensity_score_stratification_estimator (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dowhy.causal_estimators.html#module-dowhy.causal_estimators.propensity_score_weighting_estimator">dowhy.causal_estimators.propensity_score_weighting_estimator (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dowhy.causal_estimators.html#module-dowhy.causal_estimators.regression_discontinuity_estimator">dowhy.causal_estimators.regression_discontinuity_estimator (module)</a>
 </li>
       <li><a href="dowhy.html#module-dowhy.causal_graph">dowhy.causal_graph (module)</a>
@@ -380,6 +382,8 @@
       <li><a href="dowhy.causal_refuters.html#module-dowhy.causal_refuters">dowhy.causal_refuters (module)</a>
 </li>
       <li><a href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.add_unobserved_common_cause">dowhy.causal_refuters.add_unobserved_common_cause (module)</a>
+</li>
+      <li><a href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.bootstrap_refuter">dowhy.causal_refuters.bootstrap_refuter (module)</a>
 </li>
       <li><a href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.data_subset_refuter">dowhy.causal_refuters.data_subset_refuter (module)</a>
 </li>
@@ -615,6 +619,8 @@
         <li><a href="dowhy.html#dowhy.causal_refuter.CausalRefuter.refute_estimate">(dowhy.causal_refuter.CausalRefuter method)</a>
 </li>
         <li><a href="dowhy.causal_refuters.html#dowhy.causal_refuters.add_unobserved_common_cause.AddUnobservedCommonCause.refute_estimate">(dowhy.causal_refuters.add_unobserved_common_cause.AddUnobservedCommonCause method)</a>
+</li>
+        <li><a href="dowhy.causal_refuters.html#dowhy.causal_refuters.bootstrap_refuter.BootstrapRefuter.refute_estimate">(dowhy.causal_refuters.bootstrap_refuter.BootstrapRefuter method)</a>
 </li>
         <li><a href="dowhy.causal_refuters.html#dowhy.causal_refuters.data_subset_refuter.DataSubsetRefuter.refute_estimate">(dowhy.causal_refuters.data_subset_refuter.DataSubsetRefuter method)</a>
 </li>

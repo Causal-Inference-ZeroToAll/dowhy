@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Confounding Example: 观测数据中估计因果效应 &mdash; DoWhy | Making Causal Inference Easy  documentation</title>
+  <title>相关性还是因果效应？ &mdash; DoWhy | Making Causal Inference Easy  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="DoWhy: 因果效应估计各种方法" href="dowhy_estimation_methods.html" />
-    <link rel="prev" title="DoWhy： 一个简单例子" href="dowhy_simple_example.html" /> 
+    <link rel="next" title="DoWhy: 因果效应估计方法" href="dowhy_estimation_methods.html" />
+    <link rel="prev" title="DoWhy:一个简单例子" href="dowhy_simple_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,8 +86,8 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">DoWhy | 让因果推断容易</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dowhy_simple_example.html">DoWhy： 一个简单例子</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Confounding Example: 观测数据中估计因果效应</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="dowhy_simple_example.html">DoWhy:一个简单例子</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">相关性还是因果效应？</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#数据集">数据集</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Does-Treatment-cause-Outcome?">Does Treatment cause Outcome?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#STEP-1:-Model-the-problem-as-a-causal-graph">STEP 1: Model the problem as a causal graph</a></li>
@@ -98,14 +98,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dowhy_causal_api.html">DoWhy 因果 API Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="do_sampler_demo.html">Do-sampler 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load_graph_example.html">Different ways to load an input graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dowhy-simple-iv-example.html">工具变量法估计因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dowhy_ihdp_data_example.html">IHDP 因果效应估计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lalonde_pandas_api.html">Lalonde Pandas API Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_repo.html">Code repository &amp; Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy.html">dowhy package</a></li>
@@ -156,7 +156,7 @@
         
           <li><a href="nb_index.html">&lt;no title&gt;</a> &raquo;</li>
         
-      <li>Confounding Example: 观测数据中估计因果效应</li>
+      <li>相关性还是因果效应？</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -417,8 +417,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Confounding-Example:-观测数据中估计因果效应">
-<h1>Confounding Example: 观测数据中估计因果效应<a class="headerlink" href="#Confounding-Example:-观测数据中估计因果效应" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="相关性还是因果效应？">
+<h1>相关性还是因果效应？<a class="headerlink" href="#相关性还是因果效应？" title="Permalink to this headline">¶</a></h1>
 <p>假设您获得了有关治疗和结果的一些数据。 Can you determine whether the treatment causes the outcome, or the correlation is purely due to another common cause?</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -783,10 +783,10 @@ New effect:(0.9953760162895797,)
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dowhy_estimation_methods.html" class="btn btn-neutral float-right" title="DoWhy: 因果效应估计各种方法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="dowhy_estimation_methods.html" class="btn btn-neutral float-right" title="DoWhy: 因果效应估计方法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="dowhy_simple_example.html" class="btn btn-neutral float-left" title="DoWhy： 一个简单例子" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="dowhy_simple_example.html" class="btn btn-neutral float-left" title="DoWhy:一个简单例子" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

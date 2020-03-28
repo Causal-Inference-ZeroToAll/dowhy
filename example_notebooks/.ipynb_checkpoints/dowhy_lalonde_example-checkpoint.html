@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>DoWhy example on the Lalonde dataset &mdash; DoWhy | Making Causal Inference Easy  documentation</title>
+  <title>Lalonde 数据集上因果推断 &mdash; DoWhy | Making Causal Inference Easy  documentation</title>
   
 
   
@@ -84,16 +84,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">DoWhy | 让因果推断容易</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_simple_example.html">DoWhy： 一个简单例子</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_confounder_example.html">Confounding Example: 观测数据中估计因果效应</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_simple_example.html">DoWhy:一个简单例子</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_confounder_example.html">相关性还是因果效应？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy_causal_api.html">DoWhy 因果 API Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../do_sampler_demo.html">Do-sampler 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../load_graph_example.html">Different ways to load an input graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy-simple-iv-example.html">工具变量法估计因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy_ihdp_data_example.html">IHDP 因果效应估计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lalonde_pandas_api.html">Lalonde Pandas API Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code_repo.html">Code repository &amp; Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dowhy.html">dowhy package</a></li>
@@ -142,7 +142,7 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>DoWhy example on the Lalonde dataset</li>
+      <li>Lalonde 数据集上因果推断</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -403,8 +403,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="DoWhy-example-on-the-Lalonde-dataset">
-<h1>DoWhy example on the Lalonde dataset<a class="headerlink" href="#DoWhy-example-on-the-Lalonde-dataset" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Lalonde-数据集上因果推断">
+<h1>Lalonde 数据集上因果推断<a class="headerlink" href="#Lalonde-数据集上因果推断" title="Permalink to this headline">¶</a></h1>
+<p>DoWhy example on the Lalonde dataset</p>
 <p>Thanks to [&#64;mizuy](<a class="reference external" href="https://github.com/mizuy">https://github.com/mizuy</a>) for providing this example. Here we use the Lalonde dataset and apply IPW estimator to it.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -454,19 +455,26 @@ array([&#39;Matching&#39;, &#39;MASS&#39;, &#39;tools&#39;, &#39;stats&#39;, &#3
        &#39;utils&#39;, &#39;datasets&#39;, &#39;methods&#39;, &#39;base&#39;], dtype=&#39;&lt;U9&#39;)
 </pre></div></div>
 </div>
-<div class="section" id="1.-Load-the-data">
-<h2>1. Load the data<a class="headerlink" href="#1.-Load-the-data" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">R</span> data(lalonde)
+<span></span><span class="c1">## 1. Load the data</span>
+
+<span class="o">%</span><span class="k">R</span> data(lalonde)
 <span class="o">%</span><span class="k">R</span> -o lalonde
 <span class="n">lalonde</span> <span class="o">=</span> <span class="n">lalonde</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;treat&#39;</span><span class="p">:</span><span class="s1">&#39;bool&#39;</span><span class="p">},</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+UsageError: Line magic function `%R` not found.
+</pre></div></div>
 </div>
 <div class="section" id="Run-DoWhy-analysis:-model,-identify,-estimate">
 <h2>Run DoWhy analysis: model, identify, estimate<a class="headerlink" href="#Run-DoWhy-analysis:-model,-identify,-estimate" title="Permalink to this headline">¶</a></h2>

@@ -2,9 +2,13 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
-    "# 条件平均因果效应(CATE) with DoWhy and EconML\n",
+    "# 用 DoWhy 和 EconML 估计条件平均因果效应\n",
+    "\n",
+    "条件平均因果效应(CATE) with DoWhy and EconML\n",
     "\n",
     "这是一项实验性功能 where we use [EconML](https://github.com/microsoft/econml) methods from DoWhy. Using EconML allows CATE estimation using different methods. \n",
     "\n",
@@ -16,7 +20,9 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "import os, sys\n",
@@ -26,7 +32,9 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "import numpy as np\n",
@@ -45,7 +53,9 @@
   {
    "cell_type": "code",
    "execution_count": 5,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -187,7 +197,9 @@
   {
    "cell_type": "code",
    "execution_count": 7,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -222,7 +234,7 @@
    "cell_type": "code",
    "execution_count": 8,
    "metadata": {
-    "scrolled": false
+    "Collapsed": "false"
    },
    "outputs": [
     {
@@ -264,7 +276,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## 线性模型\n",
     "\n",
@@ -276,7 +290,9 @@
   {
    "cell_type": "code",
    "execution_count": 9,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -326,7 +342,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## EconML 方法\n",
     "\n",
@@ -344,7 +362,7 @@
    "cell_type": "code",
    "execution_count": 10,
    "metadata": {
-    "scrolled": false
+    "Collapsed": "false"
    },
    "outputs": [
     {
@@ -406,7 +424,9 @@
   {
    "cell_type": "code",
    "execution_count": 11,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -423,7 +443,9 @@
   {
    "cell_type": "code",
    "execution_count": 12,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -479,7 +501,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### CATE Object 和置信区间"
    ]
@@ -487,7 +511,9 @@
   {
    "cell_type": "code",
    "execution_count": 13,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -1495,7 +1521,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### New inputs 的因果效应\n",
     "\n",
@@ -1505,7 +1533,9 @@
   {
    "cell_type": "code",
    "execution_count": 14,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -1551,7 +1581,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "我们可以取出原始 EconML estimator 对象以进行任何进一步的操作。"
    ]
@@ -1559,7 +1591,9 @@
   {
    "cell_type": "code",
    "execution_count": 16,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -1586,7 +1620,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## Works with any EconML method\n",
     "\n",
@@ -1597,7 +1633,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Continuous treatment, Continuous outcome\n",
     "\n",
@@ -1607,7 +1645,9 @@
   {
    "cell_type": "code",
    "execution_count": 17,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -1679,7 +1719,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Binary treatment, Binary outcome\n",
     "\n",
@@ -1689,7 +1731,9 @@
   {
    "cell_type": "code",
    "execution_count": 18,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -1753,7 +1797,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "使用 DRLearner estimator"
    ]
@@ -1761,7 +1807,9 @@
   {
    "cell_type": "code",
    "execution_count": 19,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -1818,7 +1866,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### 工具变量法"
    ]
@@ -1827,6 +1877,7 @@
    "cell_type": "code",
    "execution_count": 20,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -2013,7 +2064,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Metalearners"
    ]
@@ -2021,7 +2074,9 @@
   {
    "cell_type": "code",
    "execution_count": 21,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -2074,7 +2129,7 @@
    "cell_type": "code",
    "execution_count": null,
    "metadata": {
-    "scrolled": false
+    "Collapsed": "false"
    },
    "outputs": [],
    "source": [
@@ -2093,14 +2148,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## Refuting the estimate"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Random "
    ]
@@ -2108,7 +2167,9 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "res_random=model.refute_estimate(identified_estimand, dml_estimate, method_name=\"random_common_cause\")\n",
@@ -2117,7 +2178,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Adding an unobserved common cause variable"
    ]
@@ -2125,7 +2188,9 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "res_unobserved=model.refute_estimate(identified_estimand, dml_estimate, method_name=\"add_unobserved_common_cause\",\n",
@@ -2136,7 +2201,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Replacing treatment with a random (placebo) variable"
    ]
@@ -2144,7 +2211,9 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "res_placebo=model.refute_estimate(identified_estimand, dml_estimate,\n",
@@ -2154,7 +2223,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Removing a random subset of the data"
    ]
@@ -2162,7 +2233,9 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "res_subset=model.refute_estimate(identified_estimand, dml_estimate,\n",
@@ -2172,7 +2245,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "More refutation methods to come, especially specific to the CATE estimators."
    ]
@@ -2211,5 +2286,5 @@
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

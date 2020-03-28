@@ -84,16 +84,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">DoWhy | 让因果推断容易</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_simple_example.html">DoWhy： 一个简单例子</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_confounder_example.html">Confounding Example: 观测数据中估计因果效应</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_simple_example.html">DoWhy:一个简单例子</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_confounder_example.html">相关性还是因果效应？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy_causal_api.html">DoWhy 因果 API Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../do_sampler_demo.html">Do-sampler 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../load_graph_example.html">Different ways to load an input graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy-simple-iv-example.html">工具变量法估计因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dowhy_ihdp_data_example.html">IHDP 因果效应估计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lalonde_pandas_api.html">Lalonde Pandas API Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code_repo.html">Code repository &amp; Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dowhy.html">dowhy package</a></li>
@@ -439,176 +439,139 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ConnectionResetError</span>                      Traceback (most recent call last)
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">do_open</span><span class="ansi-blue-fg">(self, http_class, req, **http_conn_args)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1316</span>                 h.request(req.get_method(), req.selector, req.data, headers,
+<span class="ansi-green-fg">-&gt; 1317</span><span class="ansi-red-fg">                           encode_chunked=req.has_header(&#39;Transfer-encoding&#39;))
+</span><span class="ansi-green-intense-fg ansi-bold">   1318</span>             <span class="ansi-green-fg">except</span> OSError <span class="ansi-green-fg">as</span> err<span class="ansi-blue-fg">:</span> <span class="ansi-red-fg"># timeout error</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">request</span><span class="ansi-blue-fg">(self, method, url, body, headers, encode_chunked)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1243</span>         <span class="ansi-blue-fg">&#34;&#34;&#34;Send a complete request to the server.&#34;&#34;&#34;</span>
+<span class="ansi-green-fg">-&gt; 1244</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_send_request<span class="ansi-blue-fg">(</span>method<span class="ansi-blue-fg">,</span> url<span class="ansi-blue-fg">,</span> body<span class="ansi-blue-fg">,</span> headers<span class="ansi-blue-fg">,</span> encode_chunked<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1245</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>treatment</th>
-      <th>y_factual</th>
-      <th>y_cfactual</th>
-      <th>mu0</th>
-      <th>mu1</th>
-      <th>x1</th>
-      <th>x2</th>
-      <th>x3</th>
-      <th>x4</th>
-      <th>x5</th>
-      <th>...</th>
-      <th>x16</th>
-      <th>x17</th>
-      <th>x18</th>
-      <th>x19</th>
-      <th>x20</th>
-      <th>x21</th>
-      <th>x22</th>
-      <th>x23</th>
-      <th>x24</th>
-      <th>x25</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>True</td>
-      <td>5.599916</td>
-      <td>4.318780</td>
-      <td>3.268256</td>
-      <td>6.854457</td>
-      <td>-0.528603</td>
-      <td>-0.343455</td>
-      <td>1.128554</td>
-      <td>0.161703</td>
-      <td>-0.316603</td>
-      <td>...</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>False</td>
-      <td>6.875856</td>
-      <td>7.856495</td>
-      <td>6.636059</td>
-      <td>7.562718</td>
-      <td>-1.736945</td>
-      <td>-1.802002</td>
-      <td>0.383828</td>
-      <td>2.244320</td>
-      <td>-0.629189</td>
-      <td>...</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>False</td>
-      <td>2.996273</td>
-      <td>6.633952</td>
-      <td>1.570536</td>
-      <td>6.121617</td>
-      <td>-0.807451</td>
-      <td>-0.202946</td>
-      <td>-0.360898</td>
-      <td>-0.879606</td>
-      <td>0.808706</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>False</td>
-      <td>1.366206</td>
-      <td>5.697239</td>
-      <td>1.244738</td>
-      <td>5.889125</td>
-      <td>0.390083</td>
-      <td>0.596582</td>
-      <td>-1.850350</td>
-      <td>-0.879606</td>
-      <td>-0.004017</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>False</td>
-      <td>1.963538</td>
-      <td>6.202582</td>
-      <td>1.685048</td>
-      <td>6.191994</td>
-      <td>-1.045229</td>
-      <td>-0.602710</td>
-      <td>0.011465</td>
-      <td>0.161703</td>
-      <td>0.683672</td>
-      <td>...</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 30 columns</p>
-</div></div>
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">_send_request</span><span class="ansi-blue-fg">(self, method, url, body, headers, encode_chunked)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1289</span>             body <span class="ansi-blue-fg">=</span> _encode<span class="ansi-blue-fg">(</span>body<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;body&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 1290</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>endheaders<span class="ansi-blue-fg">(</span>body<span class="ansi-blue-fg">,</span> encode_chunked<span class="ansi-blue-fg">=</span>encode_chunked<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1291</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">endheaders</span><span class="ansi-blue-fg">(self, message_body, encode_chunked)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1238</span>             <span class="ansi-green-fg">raise</span> CannotSendHeader<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 1239</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_send_output<span class="ansi-blue-fg">(</span>message_body<span class="ansi-blue-fg">,</span> encode_chunked<span class="ansi-blue-fg">=</span>encode_chunked<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1240</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">_send_output</span><span class="ansi-blue-fg">(self, message_body, encode_chunked)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1025</span>         <span class="ansi-green-fg">del</span> self<span class="ansi-blue-fg">.</span>_buffer<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">-&gt; 1026</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>send<span class="ansi-blue-fg">(</span>msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1027</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">send</span><span class="ansi-blue-fg">(self, data)</span>
+<span class="ansi-green-intense-fg ansi-bold">    965</span>             <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>auto_open<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 966</span><span class="ansi-red-fg">                 </span>self<span class="ansi-blue-fg">.</span>connect<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    967</span>             <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/http/client.py</span> in <span class="ansi-cyan-fg">connect</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1413</span>             self.sock = self._context.wrap_socket(self.sock,
+<span class="ansi-green-fg">-&gt; 1414</span><span class="ansi-red-fg">                                                   server_hostname=server_hostname)
+</span><span class="ansi-green-intense-fg ansi-bold">   1415</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/ssl.py</span> in <span class="ansi-cyan-fg">wrap_socket</span><span class="ansi-blue-fg">(self, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, session)</span>
+<span class="ansi-green-intense-fg ansi-bold">    422</span>             context<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 423</span><span class="ansi-red-fg">             </span>session<span class="ansi-blue-fg">=</span>session
+<span class="ansi-green-intense-fg ansi-bold">    424</span>         )
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/ssl.py</span> in <span class="ansi-cyan-fg">_create</span><span class="ansi-blue-fg">(cls, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, context, session)</span>
+<span class="ansi-green-intense-fg ansi-bold">    869</span>                         <span class="ansi-green-fg">raise</span> ValueError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;do_handshake_on_connect should not be specified for non-blocking sockets&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 870</span><span class="ansi-red-fg">                     </span>self<span class="ansi-blue-fg">.</span>do_handshake<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    871</span>             <span class="ansi-green-fg">except</span> <span class="ansi-blue-fg">(</span>OSError<span class="ansi-blue-fg">,</span> ValueError<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/ssl.py</span> in <span class="ansi-cyan-fg">do_handshake</span><span class="ansi-blue-fg">(self, block)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1138</span>                 self<span class="ansi-blue-fg">.</span>settimeout<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 1139</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_sslobj<span class="ansi-blue-fg">.</span>do_handshake<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1140</span>         <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">ConnectionResetError</span>: [Errno 54] Connection reset by peer
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">URLError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-f11c2ccb6294&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># Loading Data</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span>data<span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_csv<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv&#34;</span><span class="ansi-blue-fg">,</span> header <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> col <span class="ansi-blue-fg">=</span>  <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;treatment&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;y_factual&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;y_cfactual&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;mu0&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;mu1&#34;</span> <span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> range<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">26</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ansi-cyan-fg">parser_f</span><span class="ansi-blue-fg">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)</span>
+<span class="ansi-green-intense-fg ansi-bold">    683</span>         )
+<span class="ansi-green-intense-fg ansi-bold">    684</span>
+<span class="ansi-green-fg">--&gt; 685</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> _read<span class="ansi-blue-fg">(</span>filepath_or_buffer<span class="ansi-blue-fg">,</span> kwds<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    686</span>
+<span class="ansi-green-intense-fg ansi-bold">    687</span>     parser_f<span class="ansi-blue-fg">.</span>__name__ <span class="ansi-blue-fg">=</span> name
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ansi-cyan-fg">_read</span><span class="ansi-blue-fg">(filepath_or_buffer, kwds)</span>
+<span class="ansi-green-intense-fg ansi-bold">    438</span>     <span class="ansi-red-fg"># See https://github.com/python/mypy/issues/1297</span>
+<span class="ansi-green-intense-fg ansi-bold">    439</span>     fp_or_buf, _, compression, should_close = get_filepath_or_buffer(
+<span class="ansi-green-fg">--&gt; 440</span><span class="ansi-red-fg">         </span>filepath_or_buffer<span class="ansi-blue-fg">,</span> encoding<span class="ansi-blue-fg">,</span> compression
+<span class="ansi-green-intense-fg ansi-bold">    441</span>     )
+<span class="ansi-green-intense-fg ansi-bold">    442</span>     kwds<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;compression&#34;</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> compression
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/pandas/io/common.py</span> in <span class="ansi-cyan-fg">get_filepath_or_buffer</span><span class="ansi-blue-fg">(filepath_or_buffer, encoding, compression, mode)</span>
+<span class="ansi-green-intense-fg ansi-bold">    194</span>
+<span class="ansi-green-intense-fg ansi-bold">    195</span>     <span class="ansi-green-fg">if</span> _is_url<span class="ansi-blue-fg">(</span>filepath_or_buffer<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 196</span><span class="ansi-red-fg">         </span>req <span class="ansi-blue-fg">=</span> urlopen<span class="ansi-blue-fg">(</span>filepath_or_buffer<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    197</span>         content_encoding <span class="ansi-blue-fg">=</span> req<span class="ansi-blue-fg">.</span>headers<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Content-Encoding&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    198</span>         <span class="ansi-green-fg">if</span> content_encoding <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;gzip&#34;</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">urlopen</span><span class="ansi-blue-fg">(url, data, timeout, cafile, capath, cadefault, context)</span>
+<span class="ansi-green-intense-fg ansi-bold">    220</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    221</span>         opener <span class="ansi-blue-fg">=</span> _opener
+<span class="ansi-green-fg">--&gt; 222</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> opener<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>url<span class="ansi-blue-fg">,</span> data<span class="ansi-blue-fg">,</span> timeout<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    223</span>
+<span class="ansi-green-intense-fg ansi-bold">    224</span> <span class="ansi-green-fg">def</span> install_opener<span class="ansi-blue-fg">(</span>opener<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">open</span><span class="ansi-blue-fg">(self, fullurl, data, timeout)</span>
+<span class="ansi-green-intense-fg ansi-bold">    523</span>             req <span class="ansi-blue-fg">=</span> meth<span class="ansi-blue-fg">(</span>req<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    524</span>
+<span class="ansi-green-fg">--&gt; 525</span><span class="ansi-red-fg">         </span>response <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_open<span class="ansi-blue-fg">(</span>req<span class="ansi-blue-fg">,</span> data<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    526</span>
+<span class="ansi-green-intense-fg ansi-bold">    527</span>         <span class="ansi-red-fg"># post-process response</span>
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">_open</span><span class="ansi-blue-fg">(self, req, data)</span>
+<span class="ansi-green-intense-fg ansi-bold">    541</span>         protocol <span class="ansi-blue-fg">=</span> req<span class="ansi-blue-fg">.</span>type
+<span class="ansi-green-intense-fg ansi-bold">    542</span>         result = self._call_chain(self.handle_open, protocol, protocol +
+<span class="ansi-green-fg">--&gt; 543</span><span class="ansi-red-fg">                                   &#39;_open&#39;, req)
+</span><span class="ansi-green-intense-fg ansi-bold">    544</span>         <span class="ansi-green-fg">if</span> result<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    545</span>             <span class="ansi-green-fg">return</span> result
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">_call_chain</span><span class="ansi-blue-fg">(self, chain, kind, meth_name, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">    501</span>         <span class="ansi-green-fg">for</span> handler <span class="ansi-green-fg">in</span> handlers<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    502</span>             func <span class="ansi-blue-fg">=</span> getattr<span class="ansi-blue-fg">(</span>handler<span class="ansi-blue-fg">,</span> meth_name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 503</span><span class="ansi-red-fg">             </span>result <span class="ansi-blue-fg">=</span> func<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    504</span>             <span class="ansi-green-fg">if</span> result <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    505</span>                 <span class="ansi-green-fg">return</span> result
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">https_open</span><span class="ansi-blue-fg">(self, req)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1358</span>         <span class="ansi-green-fg">def</span> https_open<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> req<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1359</span>             return self.do_open(http.client.HTTPSConnection, req,
+<span class="ansi-green-fg">-&gt; 1360</span><span class="ansi-red-fg">                 context=self._context, check_hostname=self._check_hostname)
+</span><span class="ansi-green-intense-fg ansi-bold">   1361</span>
+<span class="ansi-green-intense-fg ansi-bold">   1362</span>         https_request <span class="ansi-blue-fg">=</span> AbstractHTTPHandler<span class="ansi-blue-fg">.</span>do_request_
+
+<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/urllib/request.py</span> in <span class="ansi-cyan-fg">do_open</span><span class="ansi-blue-fg">(self, http_class, req, **http_conn_args)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1317</span>                           encode_chunked=req.has_header(&#39;Transfer-encoding&#39;))
+<span class="ansi-green-intense-fg ansi-bold">   1318</span>             <span class="ansi-green-fg">except</span> OSError <span class="ansi-green-fg">as</span> err<span class="ansi-blue-fg">:</span> <span class="ansi-red-fg"># timeout error</span>
+<span class="ansi-green-fg">-&gt; 1319</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">raise</span> URLError<span class="ansi-blue-fg">(</span>err<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1320</span>             r <span class="ansi-blue-fg">=</span> h<span class="ansi-blue-fg">.</span>getresponse<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1321</span>         <span class="ansi-green-fg">except</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">URLError</span>: &lt;urlopen error [Errno 54] Connection reset by peer&gt;
+</pre></div></div>
 </div>
 <div class="section" id="1.Model">
 <h2>1.Model<a class="headerlink" href="#1.Model" title="Permalink to this headline">¶</a></h2>
@@ -635,10 +598,18 @@ div.rendered_html tbody tr:hover {
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-WARNING:dowhy.causal_model:Causal Graph not provided. DoWhy will construct a graph based on data inputs.
-INFO:dowhy.causal_model:Model to find the causal effect of treatment [&#39;treatment&#39;] on outcome [&#39;y_factual&#39;]
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-3-0ca3873b3459&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> model=CausalModel(
+<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg">         </span>data <span class="ansi-blue-fg">=</span> data<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span>         treatment<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;treatment&#39;</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span>         outcome<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;y_factual&#39;</span><span class="ansi-blue-fg">,</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;data&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -654,55 +625,18 @@ INFO:dowhy.causal_model:Model to find the causal effect of treatment [&#39;treat
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-INFO:dowhy.causal_identifier:Common causes of treatment and outcome:[&#39;x15&#39;, &#39;&#39;, &#39;x1&#39;, &#39;x19&#39;, &#39;x20&#39;, &#39;x14&#39;, &#39;x22&#39;, &#39;x2&#39;, &#39;x11&#39;, &#39;x6&#39;, &#39;x3&#39;, &#39;x5&#39;, &#39;x17&#39;, &#39;x10&#39;, &#39;x9&#39;, &#39;x25&#39;, &#39;x18&#39;, &#39;x23&#39;, &#39;x12&#39;, &#39;x8&#39;, &#39;x13&#39;, &#39;x7&#39;, &#39;x4&#39;, &#39;x24&#39;, &#39;x21&#39;, &#39;x16&#39;]
-WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">StdinNotImplementedError</span>                  Traceback (most recent call last)
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 <span class="ansi-green-fg">&lt;ipython-input-4-7f4cfa782ba8&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#Identify the causal effect</span>
 <span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>identified_estimand <span class="ansi-blue-fg">=</span> model<span class="ansi-blue-fg">.</span>identify_effect<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/dowhy/causal_model.py</span> in <span class="ansi-cyan-fg">identify_effect</span><span class="ansi-blue-fg">(self, proceed_when_unidentifiable)</span>
-<span class="ansi-green-intense-fg ansi-bold">    136</span>                                            self<span class="ansi-blue-fg">.</span>_estimand_type<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    137</span>                                            proceed_when_unidentifiable=proceed_when_unidentifiable)
-<span class="ansi-green-fg">--&gt; 138</span><span class="ansi-red-fg">         </span>identified_estimand <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>identifier<span class="ansi-blue-fg">.</span>identify_effect<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    139</span>
-<span class="ansi-green-intense-fg ansi-bold">    140</span>         <span class="ansi-green-fg">return</span> identified_estimand
-
-<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/dowhy/causal_identifier.py</span> in <span class="ansi-cyan-fg">identify_effect</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">     53</span>                 cli.query_yes_no(
-<span class="ansi-green-intense-fg ansi-bold">     54</span>                     <span class="ansi-blue-fg">&#34;WARN: Do you want to continue by ignoring any unobserved confounders? (use proceed_when_unidentifiable=True to disable this prompt)&#34;</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">---&gt; 55</span><span class="ansi-red-fg">                     </span>default<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span>
-<span class="ansi-green-intense-fg ansi-bold">     56</span>                 )
-<span class="ansi-green-intense-fg ansi-bold">     57</span>         observed_common_causes <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_graph<span class="ansi-blue-fg">.</span>filter_unobserved_variables<span class="ansi-blue-fg">(</span>common_causes<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/dowhy/utils/cli_helpers.py</span> in <span class="ansi-cyan-fg">query_yes_no</span><span class="ansi-blue-fg">(question, default)</span>
-<span class="ansi-green-intense-fg ansi-bold">     24</span>     prompt_str <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#34;%s %s &#34;</span> <span class="ansi-blue-fg">%</span> <span class="ansi-blue-fg">(</span>question<span class="ansi-blue-fg">,</span> default_str<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     25</span>     <span class="ansi-green-fg">while</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 26</span><span class="ansi-red-fg">         </span>choice <span class="ansi-blue-fg">=</span> input<span class="ansi-blue-fg">(</span>prompt_str<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>lower<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     27</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> choice <span class="ansi-green-fg">and</span> default <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     28</span>             <span class="ansi-green-fg">return</span> default
-
-<span class="ansi-green-fg">~/opt/anaconda3/lib/python3.7/site-packages/ipykernel/kernelbase.py</span> in <span class="ansi-cyan-fg">raw_input</span><span class="ansi-blue-fg">(self, prompt)</span>
-<span class="ansi-green-intense-fg ansi-bold">    853</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> self<span class="ansi-blue-fg">.</span>_allow_stdin<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    854</span>             raise StdinNotImplementedError(
-<span class="ansi-green-fg">--&gt; 855</span><span class="ansi-red-fg">                 </span><span class="ansi-blue-fg">&#34;raw_input was called, but this frontend does not support input requests.&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">    856</span>             )
-<span class="ansi-green-intense-fg ansi-bold">    857</span>         return self._input_request(str(prompt),
-
-<span class="ansi-red-fg">StdinNotImplementedError</span>: raw_input was called, but this frontend does not support input requests.
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -745,7 +679,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 <span class="ansi-green-intense-fg ansi-bold">      4</span> )
 <span class="ansi-green-intense-fg ansi-bold">      5</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -781,7 +715,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 <span class="ansi-green-intense-fg ansi-bold">      4</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Causal Estimate is &#34;</span> <span class="ansi-blue-fg">+</span> str<span class="ansi-blue-fg">(</span>estimate<span class="ansi-blue-fg">.</span>value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -817,7 +751,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 <span class="ansi-green-intense-fg ansi-bold">      4</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Causal Estimate is &#34;</span> <span class="ansi-blue-fg">+</span> str<span class="ansi-blue-fg">(</span>estimate<span class="ansi-blue-fg">.</span>value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -853,7 +787,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 <span class="ansi-green-intense-fg ansi-bold">      4</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Causal Estimate is &#34;</span> <span class="ansi-blue-fg">+</span> str<span class="ansi-blue-fg">(</span>estimate<span class="ansi-blue-fg">.</span>value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -886,7 +820,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 </span><span class="ansi-green-intense-fg ansi-bold">      2</span>         method_name=&#34;random_common_cause&#34;)
 <span class="ansi-green-intense-fg ansi-bold">      3</span> print<span class="ansi-blue-fg">(</span>refute_results<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -915,7 +849,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 </span><span class="ansi-green-intense-fg ansi-bold">      2</span>         method_name=&#34;placebo_treatment_refuter&#34;, placebo_type=&#34;permute&#34;)
 <span class="ansi-green-intense-fg ansi-bold">      3</span> print<span class="ansi-blue-fg">(</span>res_placebo<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>
@@ -944,7 +878,7 @@ WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized 
 </span><span class="ansi-green-intense-fg ansi-bold">      2</span>         method_name=&#34;data_subset_refuter&#34;, subset_fraction=0.9)
 <span class="ansi-green-intense-fg ansi-bold">      3</span> print<span class="ansi-blue-fg">(</span>res_subset<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;identified_estimand&#39; is not defined
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
 </pre></div></div>
 </div>
 </div>

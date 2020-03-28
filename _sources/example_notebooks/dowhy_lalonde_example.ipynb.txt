@@ -2,9 +2,13 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
-    "# DoWhy example on the Lalonde dataset\n",
+    "# Lalonde 数据集上因果推断\n",
+    "\n",
+    "DoWhy example on the Lalonde dataset\n",
     "\n",
     "Thanks to [@mizuy](https://github.com/mizuy) for providing this example. Here we use the Lalonde dataset and apply IPW estimator to it. "
    ]
@@ -12,7 +16,9 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -58,18 +64,23 @@
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 1. Load the data"
-   ]
-  },
-  {
    "cell_type": "code",
-   "execution_count": 2,
-   "metadata": {},
-   "outputs": [],
+   "execution_count": 1,
+   "metadata": {
+    "Collapsed": "true"
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "UsageError: Line magic function `%R` not found.\n"
+     ]
+    }
+   ],
    "source": [
+    "## 1. Load the data\n",
+    "\n",
     "%R data(lalonde)\n",
     "%R -o lalonde\n",
     "lalonde = lalonde.astype({'treat':'bool'}, copy=False)"
@@ -77,7 +88,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## Run DoWhy analysis: model, identify, estimate"
    ]
@@ -85,7 +98,9 @@
   {
    "cell_type": "code",
    "execution_count": 3,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -145,7 +160,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## Sanity check: compare to manual IPW estimate"
    ]
@@ -153,7 +170,9 @@
   {
    "cell_type": "code",
    "execution_count": 4,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -194,9 +213,9 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.6.9"
+   "version": "3.7.4"
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

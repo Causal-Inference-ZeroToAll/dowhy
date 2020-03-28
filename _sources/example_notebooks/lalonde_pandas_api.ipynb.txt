@@ -2,7 +2,9 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "# Lalonde Pandas API Example\n",
     "\n",
@@ -11,7 +13,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "We'll run through a quick example using the high-level Python API for the DoSampler. DoSampler与大多数经典因果效应估计器不同。 Instead of estimating statistics under interventions, it aims to provide the generality of Pearlian causal inference. In that context, the joint distribution of the variables under an intervention is the quantity of interest. It's hard to represent a joint distribution nonparametrically, so instead we provide a sample from that distribution, which we call a \"do\" sample.\n",
     "\n",
@@ -20,7 +24,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## 获得数据\n",
     "\n",
@@ -30,7 +36,9 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "import os, sys\n",
@@ -40,7 +48,9 @@
   {
    "cell_type": "code",
    "execution_count": 2,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -75,7 +85,9 @@
   {
    "cell_type": "code",
    "execution_count": 3,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "# the data already loaded in the previous cell. we include the import\n",
@@ -88,14 +100,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "<font size=4>  The `causal` Namespace"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "We've created a \"namespace\" for `pandas.DataFrame`s containing causal inference methods. You can access it here with `lalonde.causal`, where `lalonde` is our `pandas.DataFrame`, and `causal` contains all our new methods! These methods are magically loaded into your existing (and future) dataframes when you `import dowhy.api`."
    ]
@@ -103,7 +119,9 @@
   {
    "cell_type": "code",
    "execution_count": 4,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "import dowhy.api"
@@ -111,14 +129,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "Now that we have the `causal` namespace, lets give it a try! "
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "##  `do` 算子\n",
     "\n",
@@ -130,6 +152,7 @@
    "cell_type": "code",
    "execution_count": 5,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -171,7 +194,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "Notice you get the usual output and prompts about identifiability. This is all `dowhy` under the hood!\n",
     "\n",
@@ -181,7 +206,9 @@
   {
    "cell_type": "code",
    "execution_count": 6,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -327,6 +354,7 @@
    "cell_type": "code",
    "execution_count": 7,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -484,7 +512,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## 因果效应估计\n",
     "\n",
@@ -494,7 +524,9 @@
   {
    "cell_type": "code",
    "execution_count": 8,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -517,7 +549,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "We can do the same with our new sample from the interventional distribution to get a causal effect estimate"
    ]
@@ -525,7 +559,9 @@
   {
    "cell_type": "code",
    "execution_count": 9,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -548,7 +584,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "We could get some rough error bars on the outcome using the normal approximation for a 95% confidence interval, like\n"
    ]
@@ -556,7 +594,9 @@
   {
    "cell_type": "code",
    "execution_count": 10,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -581,14 +621,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "but note that these DO NOT contain propensity score estimation error. For that, a bootstrapping procedure might be more appropriate."
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "This is just one statistic we can compute from the interventional distribution of `'re78'`. We can get all of the interventional moments as well, including functions of `'re78'`. We can leverage the full power of pandas, like"
    ]
@@ -596,7 +640,9 @@
   {
    "cell_type": "code",
    "execution_count": 11,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -624,7 +670,9 @@
   {
    "cell_type": "code",
    "execution_count": 12,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -651,7 +699,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "and even plot aggregations, like"
    ]
@@ -659,7 +709,9 @@
   {
    "cell_type": "code",
    "execution_count": 13,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "%matplotlib inline"
@@ -668,7 +720,9 @@
   {
    "cell_type": "code",
    "execution_count": 14,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -702,7 +756,9 @@
   {
    "cell_type": "code",
    "execution_count": 15,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -733,7 +789,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## Specifying Interventions\n",
     "\n",
@@ -743,7 +801,9 @@
   {
    "cell_type": "code",
    "execution_count": 16,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -784,7 +844,9 @@
   {
    "cell_type": "code",
    "execution_count": 17,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -940,14 +1002,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "This new dataframe gives the distribution of `'re78'` when `'treat'` is set to `1`."
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "For much more detail on how the `do` method works, check the docstring:"
    ]
@@ -955,7 +1021,9 @@
   {
    "cell_type": "code",
    "execution_count": 18,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -1047,5 +1115,5 @@
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

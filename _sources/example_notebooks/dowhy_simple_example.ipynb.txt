@@ -2,9 +2,11 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
-    "# DoWhy： 一个简单例子\n",
+    "# DoWhy:一个简单例子\n",
     "\n",
     "\n",
     "这是DoWhy因果推理库的快速介绍。我们将 load in a sample dataset，并估计the causal effect of a (pre-specified)treatment variable on a (pre-specified) outcome variable.\n",
@@ -15,7 +17,9 @@
   {
    "cell_type": "code",
    "execution_count": 5,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -37,7 +41,9 @@
   {
    "cell_type": "code",
    "execution_count": 3,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "import numpy as np\n",
@@ -50,7 +56,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "现在，让我们加载一个数据集。为简单起见，我们模拟了一个数据集，该数据集具有 linear relationships between common causes and treatment, and common causes and outcome. \n",
     "\n",
@@ -61,6 +69,7 @@
    "cell_type": "code",
    "execution_count": 7,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -104,14 +113,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "Note that we are using a pandas dataframe to load the data. 目前，DoWhy 仅支持 pandas 数据框作为输入。"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## 建立因果模型\n",
     "\n",
@@ -120,14 +133,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Interface 1: 输入因果图(recommended)"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "现在，我们以GML图格式输入因果图（推荐）。您也可以使用DOT格式。"
    ]
@@ -135,7 +152,9 @@
   {
    "cell_type": "code",
    "execution_count": 14,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -159,7 +178,9 @@
   {
    "cell_type": "code",
    "execution_count": 15,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "model.view_model()"
@@ -169,6 +190,7 @@
    "cell_type": "code",
    "execution_count": 16,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -190,14 +212,18 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "上面的因果图显示了因果模型中编码的因果关系假设。现在，我们可以使用此图首先 identify 因果效应 (go from a causal estimand to a probability expression)，然后估计因果效应。"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "**DoWhy 的哲学: 把识别和估计分开**\n",
     "\n",
@@ -210,7 +236,7 @@
    "cell_type": "code",
    "execution_count": 17,
    "metadata": {
-    "scrolled": false
+    "Collapsed": "false"
    },
    "outputs": [
     {
@@ -252,7 +278,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "If you want to disable the warning for ignoring unobserved confounders, you can add a parameter flag ( *proceed\\_when\\_unidentifiable* ). The same parameter can also be added when instantiating the CausalModel object. "
    ]
@@ -260,7 +288,9 @@
   {
    "cell_type": "code",
    "execution_count": 20,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": [
     "# identified_estimand = model.identify_effect(proceed_when_unidentifiable=True)\n",
@@ -269,7 +299,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "* Estimation"
    ]
@@ -277,7 +309,9 @@
   {
    "cell_type": "code",
    "execution_count": 21,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -332,7 +366,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "您可以将额外参数输入到 estimate_effect 方法中。 例如, to estimate the effect on any subset of the units, you can specify the \"target_units\" parameter which can be a string (\"ate\", \"att\", or \"atc\"), lambda function that filters rows of the data frame, or a new dataframe on which to compute the effect. 您还可以指定 \"effect modifiers\" 来估计  heterogeneous effects across these variables. See `help(CausalModel.estimate_effect)`."
    ]
@@ -340,7 +376,9 @@
   {
    "cell_type": "code",
    "execution_count": 22,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -402,7 +440,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Interface 2: 指定共同原因和工具变量\n",
     "\n",
@@ -413,6 +453,7 @@
    "cell_type": "code",
    "execution_count": 23,
    "metadata": {
+    "Collapsed": "false",
     "scrolled": true
    },
    "outputs": [
@@ -440,7 +481,9 @@
   {
    "cell_type": "code",
    "execution_count": 26,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "data": {
@@ -462,7 +505,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "我们得到相同的因果图。Now identification and estimation is done as before."
    ]
@@ -470,7 +515,9 @@
   {
    "cell_type": "code",
    "execution_count": 27,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -489,7 +536,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "* Estimation"
    ]
@@ -497,7 +546,9 @@
   {
    "cell_type": "code",
    "execution_count": 28,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -554,7 +605,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "## 稳健性分析\n",
     "\n",
@@ -564,7 +617,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Adding a random common cause variable\n",
     "\n",
@@ -574,7 +629,9 @@
   {
    "cell_type": "code",
    "execution_count": 29,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -612,7 +669,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Adding an unobserved common cause variable\n",
     "\n"
@@ -621,7 +680,9 @@
   {
    "cell_type": "code",
    "execution_count": 30,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -661,7 +722,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Replacing treatment with a random (placebo) variable\n",
     "\n",
@@ -671,7 +734,9 @@
   {
    "cell_type": "code",
    "execution_count": 31,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -710,7 +775,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "### Removing a random subset of the data\n",
     "\n",
@@ -720,7 +787,9 @@
   {
    "cell_type": "code",
    "execution_count": 33,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -759,7 +828,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "source": [
     "如您所见，propensity score stratification estimator 对于反驳具有相当强的鲁棒性。为了重现性，您可以向任何反驳方法中添加参数“ random_seed”，如下所示。\n"
    ]
@@ -767,7 +838,9 @@
   {
    "cell_type": "code",
    "execution_count": 34,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [
     {
      "name": "stderr",
@@ -801,7 +874,9 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "Collapsed": "false"
+   },
    "outputs": [],
    "source": []
   }
@@ -844,5 +919,5 @@
   }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }

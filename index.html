@@ -85,16 +85,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">DoWhy | 让因果推断容易</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy： 一个简单例子</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">Confounding Example: 观测数据中估计因果效应</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy:一个简单例子</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">相关性还是因果效应？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_causal_api.html">DoWhy 因果 API Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/do_sampler_demo.html">Do-sampler 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/load_graph_example.html">Different ways to load an input graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-simple-iv-example.html">工具变量法估计因果效应</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_ihdp_data_example.html">IHDP 因果效应估计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks/lalonde_pandas_api.html">Lalonde Pandas API Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_repo.html">Code repository &amp; Versions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dowhy.html">dowhy package</a></li>
@@ -188,34 +188,35 @@
 </style>
 <p><a class="reference external" href="https://dev.azure.com/ms/dowhy/_build/latest?definitionId=179&amp;branchName=master"><img alt="BuildStatus" src="https://dev.azure.com/ms/dowhy/_apis/build/status/microsoft.dowhy?branchName=master" /></a> <a class="reference external" href="https://pypi.org/project/dowhy/"><img alt="PyPiVersion" src="https://img.shields.io/pypi/v/dowhy.svg" /></a> <a class="reference external" href="https://pypi.org/project/dowhy/"><img alt="PythonSupport" src="https://img.shields.io/pypi/pyversions/dowhy.svg" /></a></p>
 <div class="section" id="dowhy">
-<h1><a class="toc-backref" href="#id7">DoWhy | 让因果推断容易</a><a class="headerlink" href="#dowhy" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id8">DoWhy | 让因果推断容易</a><a class="headerlink" href="#dowhy" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="http://www.amitsharma.in">Amit Sharma</a>,
-<a class="reference external" href="http://www.kiciman.org">Emre Kiciman</a>,</p>
+<a class="reference external" href="http://www.kiciman.org">Emre Kiciman</a>,
+<a class="reference external" href="https://sites.google.com/view/minituring/">Heyang Gong 编译和解读</a></p>
 <p>随着计算系统越来越频繁地，更加积极地介入社会关键领域，例如医疗保健，教育和治理，正确预测和理解这些干预措施的因果效应至关重要。 Without an A/B test, 常规机器学习方法 built on pattern recognition and correlational analyses 不足以进行因果推理。</p>
 <p><strong>“DoWhy” is a Python library that aims to spark causal thinking and analysis</strong>. DoWhy为因果推断方法提供了统一的界面，并自动测试了许多假设，从而使非专家可以进行因果推断。 快速介绍因果推理见 <a class="reference external" href="http://causalinference.gitlab.io/kdd-tutorial/">causalinference.gitlab.io/kdd-tutorial</a>. Documentation for DoWhy is available at <a class="reference external" href="https://microsoft.github.io/dowhy/">microsoft.github.io/dowhy</a>.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#dowhy" id="id7">DoWhy | 让因果推断容易</a></p>
+<li><p><a class="reference internal" href="#dowhy" id="id8">DoWhy | 让因果推断容易</a></p>
 <ul>
-<li><p><a class="reference internal" href="#id1" id="id8">编译申明</a></p></li>
-<li><p><a class="reference internal" href="#the-need-for-causal-inference" id="id9">The need for causal inference</a></p></li>
-<li><p><a class="reference internal" href="#installation" id="id10">Installation</a></p></li>
-<li><p><a class="reference internal" href="#id2" id="id11">使用 DoWhy 进行因果推断的一个简单例子</a></p></li>
-<li><p><a class="reference internal" href="#a-high-level-pandas-api" id="id12">A High-level Pandas API</a></p></li>
-<li><p><a class="reference internal" href="#graphical-models-and-potential-outcomes-best-of-both-worlds" id="id13">Graphical Models and Potential Outcomes: Best of both worlds</a></p></li>
-<li><p><a class="reference internal" href="#id3" id="id14">因果推理的统一语言</a></p></li>
-<li><p><a class="reference internal" href="#id4" id="id15">因果推断的四个步骤</a></p></li>
-<li><p><a class="reference internal" href="#citing-this-package" id="id16">Citing this package</a></p></li>
-<li><p><a class="reference internal" href="#roadmap" id="id17">Roadmap</a></p></li>
-<li><p><a class="reference internal" href="#contributing" id="id18">Contributing</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id9">编译申明</a></p></li>
+<li><p><a class="reference internal" href="#the-need-for-causal-inference" id="id10">The need for causal inference</a></p></li>
+<li><p><a class="reference internal" href="#installation" id="id11">Installation</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id12">使用 DoWhy 进行因果推断的一个简单例子</a></p></li>
+<li><p><a class="reference internal" href="#a-high-level-pandas-api" id="id13">A High-level Pandas API</a></p></li>
+<li><p><a class="reference internal" href="#graphical-models-and-potential-outcomes-best-of-both-worlds" id="id14">Graphical Models and Potential Outcomes: Best of both worlds</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id15">因果推理的统一语言</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id16">因果推断的四个步骤</a></p></li>
+<li><p><a class="reference internal" href="#citing-this-package" id="id17">Citing this package</a></p></li>
+<li><p><a class="reference internal" href="#roadmap" id="id18">Roadmap</a></p></li>
+<li><p><a class="reference internal" href="#contributing" id="id19">Contributing</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#indices-and-tables" id="id19">Indices and tables</a></p></li>
+<li><p><a class="reference internal" href="#indices-and-tables" id="id20">Indices and tables</a></p></li>
 </ul>
 </div>
 <div class="section" id="id1">
-<h2><a class="toc-backref" href="#id8">编译申明</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">编译申明</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>这是 DoWhy 官方教程的编译版本 by <a class="reference external" href="https://sites.google.com/view/causal-inference-zerotoall/home">Heyang Gong</a>。相对官方版本，该教程</p>
 <ul class="simple">
 <li><p>在保证意思准确的情况下，尽量翻译英文，调整好文章的组织和目录结构，</p></li>
@@ -223,7 +224,7 @@
 </ul>
 </div>
 <div class="section" id="the-need-for-causal-inference">
-<h2><a class="toc-backref" href="#id9">The need for causal inference</a><a class="headerlink" href="#the-need-for-causal-inference" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">The need for causal inference</a><a class="headerlink" href="#the-need-for-causal-inference" title="Permalink to this headline">¶</a></h2>
 <p>预测模型揭示了将观察数据中的 patterns that connect the inputs and outcome。To intervene, however, we need to estimate the effect of changing an input from its current value, for which no data exists. 这些问题涉及估计“反事实”，在决策场景中很常见。</p>
 <ul class="simple">
 <li><dl class="simple">
@@ -266,7 +267,7 @@ the robustness of the estimate to violations.</p></li>
 </ol>
 </div>
 <div class="section" id="installation">
-<h2><a class="toc-backref" href="#id10">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p><strong>Requirements</strong></p>
 <p>DoWhy support Python 3+. It requires the following packages:</p>
 <ul class="simple">
@@ -302,8 +303,8 @@ pip install pygraphviz --install-option<span class="o">=</span><span class="s2">
 </div>
 <p>Keep in mind that pygraphviz installation can be problematic on the latest versions of Python3. Tested to work with Python 3.5.</p>
 </div>
-<div class="section" id="id2">
-<h2><a class="toc-backref" href="#id11">使用 DoWhy 进行因果推断的一个简单例子</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id12">使用 DoWhy 进行因果推断的一个简单例子</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Most DoWhy
 analyses for causal inference take 4 lines to write, assuming a
 pandas dataframe df that contains the data:</p>
@@ -347,7 +348,7 @@ estimate (if any). Here’s a sample output of the linear regression estimator.<
 <p>For detailed code examples, check out the Jupyter notebooks in <a class="reference external" href="https://github.com/microsoft/dowhy/tree/master/docs/source/example_notebooks/">docs/source/example_notebooks</a>, or try them online at <a class="reference external" href="https://mybinder.org/v2/gh/microsoft/dowhy/master?filepath=docs%2Fsource%2F">Binder</a>.</p>
 </div>
 <div class="section" id="a-high-level-pandas-api">
-<h2><a class="toc-backref" href="#id12">A High-level Pandas API</a><a class="headerlink" href="#a-high-level-pandas-api" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">A High-level Pandas API</a><a class="headerlink" href="#a-high-level-pandas-api" title="Permalink to this headline">¶</a></h2>
 <p>我们使用该 API 和内置数据集合生成函数，生成用于研究的模拟干预数据。
 We’ve made an even simpler API for dowhy which is a light layer on top of the standard one. The goal
 was to make causal analysis much more like regular exploratory analysis. To use this API, simply
@@ -387,14 +388,14 @@ same length as your data set(这个有一个关键问题，只有因果图而因
 identification automatically when you provide a graph instead of <code class="code docutils literal notranslate"><span class="pre">common_causes</span></code>.</p>
 </div>
 <div class="section" id="graphical-models-and-potential-outcomes-best-of-both-worlds">
-<h2><a class="toc-backref" href="#id13">Graphical Models and Potential Outcomes: Best of both worlds</a><a class="headerlink" href="#graphical-models-and-potential-outcomes-best-of-both-worlds" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">Graphical Models and Potential Outcomes: Best of both worlds</a><a class="headerlink" href="#graphical-models-and-potential-outcomes-best-of-both-worlds" title="Permalink to this headline">¶</a></h2>
 <p>DoWhy builds on two of the most powerful frameworks for causal inference:
 graphical models and potential outcomes. It uses graph-based criteria and
 do-calculus for modeling assumptions and identifying a non-parametric causal effect.
 For estimation, it switches to methods based primarily on potential outcomes.</p>
 </div>
-<div class="section" id="id3">
-<h2><a class="toc-backref" href="#id14">因果推理的统一语言</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id15">因果推理的统一语言</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>DoWhy基于简单的统一语言进行因果推断。因果推断似乎有些棘手，但几乎所有方法都遵循四个关键步骤：</p>
 <ol class="arabic simple">
 <li><p>Model a causal inference problem using assumptions.</p></li>
@@ -442,8 +443,8 @@ implementations in the future). The four verbs are mutually independent, so thei
 implementations can be combined in any way.</p>
 <p>下面是有关每个动词的当前实现的更多详细信息。</p>
 </div>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id15">因果推断的四个步骤</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id16">因果推断的四个步骤</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ol class="upperroman simple">
 <li><p><strong>Model a causal problem</strong></p></li>
 </ol>
@@ -499,7 +500,7 @@ the statistical significance of obtained estimate.</p>
 </ul>
 </div>
 <div class="section" id="citing-this-package">
-<h2><a class="toc-backref" href="#id16">Citing this package</a><a class="headerlink" href="#citing-this-package" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Citing this package</a><a class="headerlink" href="#citing-this-package" title="Permalink to this headline">¶</a></h2>
 <p>If you find DoWhy useful for your research work, please cite us as follows:</p>
 <p>Amit Sharma, Emre Kiciman, et al. DoWhy: A Python package for causal inference. 2019. <a class="reference external" href="https://github.com/microsoft/dowhy">https://github.com/microsoft/dowhy</a></p>
 <p>Bibtex:</p>
@@ -513,11 +514,11 @@ the statistical significance of obtained estimate.</p>
 </div>
 </div>
 <div class="section" id="roadmap">
-<h2><a class="toc-backref" href="#id17">Roadmap</a><a class="headerlink" href="#roadmap" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">Roadmap</a><a class="headerlink" href="#roadmap" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://github.com/microsoft/dowhy/projects">projects</a> page lists the next steps for DoWhy. If you would like to contribute, have a look at the current projects. If you have a specific request for DoWhy, please raise an issue <a class="reference external" href="https://github.com/microsoft/dowhy/issues">here</a>.</p>
 </div>
 <div class="section" id="contributing">
-<h2><a class="toc-backref" href="#id18">Contributing</a><a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">Contributing</a><a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit <a class="reference external" href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
@@ -534,17 +535,17 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 <li class="toctree-l2"><a class="reference internal" href="readme.html#id1">编译申明</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#the-need-for-causal-inference">The need for causal inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#id2">使用 DoWhy 进行因果推断的一个简单例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#id3">使用 DoWhy 进行因果推断的一个简单例子</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#a-high-level-pandas-api">A High-level Pandas API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#graphical-models-and-potential-outcomes-best-of-both-worlds">Graphical Models and Potential Outcomes: Best of both worlds</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#id3">因果推理的统一语言</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#id4">因果推断的四个步骤</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#id4">因果推理的统一语言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#id5">因果推断的四个步骤</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#citing-this-package">Citing this package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#roadmap">Roadmap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#contributing">Contributing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy： 一个简单例子</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html">DoWhy:一个简单例子</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html#建立因果模型">建立因果模型</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html#Interface-1:-输入因果图(recommended)">Interface 1: 输入因果图(recommended)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="example_notebooks/dowhy_simple_example.html#Interface-2:-指定共同原因和工具变量">Interface 2: 指定共同原因和工具变量</a></li>
@@ -559,7 +560,7 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">Confounding Example: 观测数据中估计因果效应</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html">相关性还是因果效应？</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html#数据集">数据集</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html#Does-Treatment-cause-Outcome?">Does Treatment cause Outcome?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="example_notebooks/dowhy_confounder_example.html#STEP-1:-Model-the-problem-as-a-causal-graph">STEP 1: Model the problem as a causal graph</a></li>
@@ -570,7 +571,7 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计各种方法</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html">DoWhy: 因果效应估计方法</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html#方法1：回归">方法1：回归</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html#方法2：分层">方法2：分层</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html#方法3：匹配">方法3：匹配</a></li>
@@ -579,7 +580,7 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_estimation_methods.html#方法6：断点回归法">方法6：断点回归法</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">条件平均因果效应(CATE) with DoWhy and EconML</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html">用 DoWhy 和 EconML 估计条件平均因果效应</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html#线性模型">线性模型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html#EconML-方法">EconML 方法</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="example_notebooks/dowhy-conditional-treatment-effects.html#CATE-Object-和置信区间">CATE Object 和置信区间</a></li>
@@ -641,8 +642,7 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">DoWhy example on the Lalonde dataset</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html">Lalonde 数据集上因果推断</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html#Run-DoWhy-analysis:-model,-identify,-estimate">Run DoWhy analysis: model, identify, estimate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_notebooks/dowhy_lalonde_example.html#Sanity-check:-compare-to-manual-IPW-estimate">Sanity check: compare to manual IPW estimate</a></li>
 </ul>
@@ -682,6 +682,7 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 <li class="toctree-l3"><a class="reference internal" href="dowhy.causal_refuters.html">dowhy.causal_refuters package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.add_unobserved_common_cause">dowhy.causal_refuters.add_unobserved_common_cause module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.bootstrap_refuter">dowhy.causal_refuters.bootstrap_refuter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.data_subset_refuter">dowhy.causal_refuters.data_subset_refuter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.placebo_treatment_refuter">dowhy.causal_refuters.placebo_treatment_refuter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dowhy.causal_refuters.html#module-dowhy.causal_refuters.random_common_cause">dowhy.causal_refuters.random_common_cause module</a></li>
@@ -731,9 +732,8 @@ contact <a class="reference external" href="mailto:opencode&#37;&#52;&#48;micros
 </div>
 </div>
 <div class="section" id="indices-and-tables">
-<h1><a class="toc-backref" href="#id19">Indices and tables</a><a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id20">Indices and tables</a><a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
