@@ -16,7 +16,6 @@ DoWhy | 让因果推断容易
 `Emre Kiciman <http://www.kiciman.org>`_,
 `Heyang Gong 编译和解读 <https://sites.google.com/view/minituring/>`_
 
-<img src="http://imgcdn.atyun.com/2019/06/3-7.png" width=400 /></a>
 
 
 随着计算系统越来越频繁地，更加积极地介入社会关键领域，例如医疗保健，教育和治理，正确预测和理解这些干预措施的因果效应至关重要。 Without an A/B test, 常规机器学习方法 built on pattern recognition and correlational analyses 不足以进行因果推理。
